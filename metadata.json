@@ -1,0 +1,5 @@
+{
+  "name": "Gölge Arkadaş",
+  "description": "Yalnız yürüyüşler için kişisel güvenlik asistanı. Süre dolduğunda veya düşme algılandığında acil durum kişilerine konumunuzu bildirir.",
+  "requestFramePermissions": ["geolocation", "camera", "microphone"]
+}
