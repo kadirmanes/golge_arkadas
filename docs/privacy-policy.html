@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guardly — Gizlilik Politikası</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 760px; margin: 0 auto; padding: 2rem 1.5rem; color: #1a1a1a; line-height: 1.7; }
+    h1 { font-size: 1.8rem; margin-bottom: 0.25rem; }
+    h2 { font-size: 1.15rem; margin-top: 2rem; color: #111; }
+    p, li { color: #333; }
+    ul { padding-left: 1.25rem; }
+    .updated { color: #666; font-size: 0.9rem; margin-bottom: 2rem; }
+    a { color: #1d6df5; }
+  </style>
+</head>
+<body>
+
+<h1>Guardly Gizlilik Politikası</h1>
+<p class="updated">Son güncelleme: 18 Nisan 2026</p>
+
+<p>Guardly ("uygulama"), kullanıcıların güvenliğini korumayı amaçlayan bir kişisel güvenlik yardımcısıdır. Bu politika, uygulamanın hangi verileri topladığını, nasıl kullandığını ve nasıl koruduğunu açıklar.</p>
+
+<h2>1. Toplanan Veriler</h2>
+<ul>
+  <li><strong>Konum:</strong> Yolculuk sırasında anlık konum bilgisi toplanır ve yalnızca seçilen acil durum kişileriyle paylaşılır.</li>
+  <li><strong>Ses kaydı:</strong> Acil durum tetiklendiğinde kısa süreli (10 saniyelik) ses kaydı alınır ve Firebase Storage'a şifreli biçimde yüklenir.</li>
+  <li><strong>Kamera:</strong> Kanıt kaydı özelliği için kullanıcı onayıyla erişilir.</li>
+  <li><strong>Hesap bilgileri:</strong> Google ile giriş yapıldığında ad, e-posta adresi ve profil fotoğrafı alınır.</li>
+  <li><strong>Cihaz bilgisi:</strong> Pil seviyesi gibi sistem verileri yalnızca acil durum uyarıları için kullanılır.</li>
+</ul>
+
+<h2>2. Verilerin Kullanım Amacı</h2>
+<ul>
+  <li>Acil durum bildirimlerini seçilen kişilere iletmek</li>
+  <li>Yolculuk süresince konumu Firestore'da güncellemek</li>
+  <li>Ses kanıtını acil durum kişileriyle paylaşmak</li>
+  <li>Uygulama oturumunu yönetmek</li>
+</ul>
+
+<h2>3. Veri Paylaşımı</h2>
+<p>Veriler hiçbir reklam ağıyla, analitik şirketiyle veya üçüncü taraflarla paylaşılmaz. Yalnızca şu alt işlemciler kullanılır:</p>
+<ul>
+  <li><strong>Google Firebase</strong> — kimlik doğrulama, veritabanı, dosya depolama ve push bildirim altyapısı</li>
+  <li><strong>Vercel</strong> — bildirim API endpoint'i</li>
+</ul>
+
+<h2>4. Veri Saklama</h2>
+<p>Yolculuk verileri ve ses kayıtları yolculuk tamamlandıktan sonra 30 gün içinde otomatik olarak silinir. Kullanıcı hesabı silindiğinde tüm kişisel veriler kalıcı olarak kaldırılır.</p>
+
+<h2>5. İzinler</h2>
+<ul>
+  <li><strong>Konum (ACCESS_FINE_LOCATION):</strong> Yolculuk sırasında acil durum konumunu iletmek için</li>
+  <li><strong>Mikrofon (RECORD_AUDIO):</strong> Acil durum ses kanıtı için</li>
+  <li><strong>Kamera (CAMERA):</strong> Video kanıtı için</li>
+  <li><strong>Bildirimler (POST_NOTIFICATIONS):</strong> Acil durum uyarıları için</li>
+</ul>
+<p>Tüm izinler yalnızca ilgili özellik kullanıldığında ve kullanıcı onayıyla istenir.</p>
+
+<h2>6. Güvenlik</h2>
+<p>Tüm veriler HTTPS üzerinden iletilir. Firebase güvenlik kuralları, verilerin yalnızca yetkili kullanıcılar tarafından okunmasını ve yazılmasını sağlar. Ses kayıtları Firebase Storage'da erişim denetimli olarak saklanır.</p>
+
+<h2>7. Çocukların Gizliliği</h2>
+<p>Guardly 13 yaşın altındaki çocuklara yönelik değildir ve bu yaş grubundan bilerek veri toplanmaz.</p>
+
+<h2>8. Değişiklikler</h2>
+<p>Bu politika güncellendiğinde "Son güncelleme" tarihi değiştirilir. Önemli değişikliklerde uygulama içi bildirim gönderilir.</p>
+
+<h2>9. İletişim</h2>
+<p>Gizlilikle ilgili sorularınız için: <a href="mailto:kadirmanes@gmail.com">kadirmanes@gmail.com</a></p>
+
+</body>
+</html>

@@ -41,6 +41,43 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:13928769495:android:5a46e9bbe39df953d0cd92",
+        "android_client_info": {
+          "package_name": "com.guardly.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "13928769495-5uda48ec05n2nofnrltcilqf5n0m9b6e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.guardly.app",
+            "certificate_hash": "3f0ff41c50838480590845ecfd475fb7f2f8de77"
+          }
+        },
+        {
+          "client_id": "13928769495-jrv0p05ihkggsqi8vodva99ttv1aikpo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBO9qP-0W1pMjXk6MClBYE9YGFg_o8q7ec"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "13928769495-jrv0p05ihkggsqi8vodva99ttv1aikpo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"
