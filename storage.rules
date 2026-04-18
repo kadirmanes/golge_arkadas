@@ -1,0 +1,26 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function journeyDoc(journeyId) {
+      return firestore.get(/databases/(default)/documents/journeys/$(journeyId));
+    }
+
+    function isJourneyOwner(journeyId) {
+      return isSignedIn() && journeyDoc(journeyId).data.userId == request.auth.uid;
+    }
+
+    function isJourneyWatcher(journeyId) {
+      return isSignedIn() && request.auth.uid in journeyDoc(journeyId).data.contactUids;
+    }
+
+    match /emergencies/{journeyId}/{fileName} {
+      allow read: if isJourneyOwner(journeyId) || isJourneyWatcher(journeyId);
+      allow write: if isJourneyOwner(journeyId);
+    }
+  }
+}
+

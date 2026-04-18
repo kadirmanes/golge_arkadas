@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "13928769495",
+    "project_id": "golge-arkadas",
+    "storage_bucket": "golge-arkadas.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:13928769495:android:68915c911bd85becd0cd92",
+        "android_client_info": {
+          "package_name": "com.golgearkadas.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "13928769495-2bkhetq845n7oksjcmul0cf6bh0k1ut1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.golgearkadas.app",
+            "certificate_hash": "e8d35ffdc8b43237c281fd2e79b6b3f466ba0671"
+          }
+        },
+        {
+          "client_id": "13928769495-jrv0p05ihkggsqi8vodva99ttv1aikpo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBO9qP-0W1pMjXk6MClBYE9YGFg_o8q7ec"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "13928769495-jrv0p05ihkggsqi8vodva99ttv1aikpo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

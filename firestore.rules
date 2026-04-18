@@ -1,0 +1,73 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isSelf(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+
+    function journeyOwnedByCaller() {
+      return isSignedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    function callerCanWatchJourney() {
+      return isSignedIn() && request.auth.uid in resource.data.contactUids;
+    }
+
+    match /users/{uid} {
+      allow read: if isSignedIn();
+      allow create: if isSelf(uid)
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.email is string
+        && request.resource.data.displayName is string;
+      allow update: if isSelf(uid)
+        && request.resource.data.uid == resource.data.uid
+        && request.resource.data.email == resource.data.email;
+      allow delete: if false;
+    }
+
+    match /journeys/{journeyId} {
+      allow read: if journeyOwnedByCaller() || callerCanWatchJourney();
+      allow create: if isSignedIn()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.status in ['active', 'alert', 'triggered', 'ended']
+        && request.resource.data.contactUids is list;
+      allow update: if journeyOwnedByCaller()
+        && request.resource.data.userId == resource.data.userId
+        && request.resource.data.contactUids == resource.data.contactUids
+        && request.resource.data.status in ['active', 'alert', 'triggered', 'ended'];
+      allow delete: if false;
+    }
+
+    match /watchRequests/{requestId} {
+      allow read: if isSignedIn()
+        && (resource.data.fromUserId == request.auth.uid || resource.data.toUserId == request.auth.uid);
+      allow create: if isSignedIn()
+        && request.resource.data.fromUserId == request.auth.uid
+        && request.resource.data.status == 'pending';
+      allow update: if isSignedIn()
+        && resource.data.toUserId == request.auth.uid
+        && resource.data.status == 'pending'
+        && request.resource.data.status in ['accepted', 'rejected']
+        && request.resource.data.fromUserId == resource.data.fromUserId
+        && request.resource.data.toUserId == resource.data.toUserId;
+      allow delete: if false;
+    }
+
+    match /watchRelationships/{relationshipId} {
+      allow read: if isSignedIn()
+        && (resource.data.protectedUserId == request.auth.uid || resource.data.watcherUserId == request.auth.uid);
+      allow create: if isSignedIn()
+        && request.resource.data.protectedUserId is string
+        && request.resource.data.watcherUserId is string
+        && (request.resource.data.protectedUserId == request.auth.uid
+          || request.resource.data.watcherUserId == request.auth.uid);
+      allow update: if false;
+      allow delete: if false;
+    }
+  }
+}
+

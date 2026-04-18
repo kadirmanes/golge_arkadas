@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 
 export function useFallDetection(onFallDetected: () => void) {
   const [isSupported, setIsSupported] = useState(false);
@@ -34,20 +34,23 @@ export function useFallDetection(onFallDetected: () => void) {
     }
   };
 
+  const lastFallTimeRef = useRef<number>(0);
+
   const handleMotion = useCallback((event: DeviceMotionEvent) => {
     if (!event.accelerationIncludingGravity) return;
 
     const { x, y, z } = event.accelerationIncludingGravity;
     if (x === null || y === null || z === null) return;
 
-    // Calculate total acceleration
     const acceleration = Math.sqrt(x * x + y * y + z * z);
-    
-    // Standard gravity is ~9.8 m/s^2.
-    // A sudden drop followed by a high impact usually registers a spike > 25-30 m/s^2.
-    // We'll use 25 as a threshold for a "hard fall" or sudden impact.
+
+    // 25 m/s² eşiği + 5 saniyelik debounce (yanlış alarm önleme)
     if (acceleration > 25) {
-      onFallDetected();
+      const now = Date.now();
+      if (now - lastFallTimeRef.current > 5000) {
+        lastFallTimeRef.current = now;
+        onFallDetected();
+      }
     }
   }, [onFallDetected]);
 

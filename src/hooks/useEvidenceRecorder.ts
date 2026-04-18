@@ -7,10 +7,35 @@ export const useEvidenceRecorder = () => {
   const streamRef = useRef<MediaStream | null>(null);
   const chunksRef = useRef<BlobPart[]>([]);
 
-  const startRecording = useCallback(async () => {
-    if (isRecording) return;
+  // Stream'i dışarıya ver — WebRTC aynı stream'i kullanabilsin
+  const getStream = () => streamRef.current;
+
+  // Android'de kamera/mikrofon iznini önceden iste — stream'i KAPATMA, sakla
+  // Böylece acil durumda ikinci getUserMedia gerekmez (WebView permission sıfırlanmaz)
+  const preRequestPermissions = async () => {
+    console.log('[CAM] preRequestPermissions: mediaDevices=', !!navigator.mediaDevices?.getUserMedia);
+    if (!navigator.mediaDevices?.getUserMedia) return false;
+    if (streamRef.current) return true; // zaten açık
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      console.log('[CAM] preRequestPermissions: izin alındı, track sayısı=', stream.getTracks().length);
+      streamRef.current = stream; // KAPAT MA — sakla, acil durumda kullanılacak
+      return true;
+    } catch (err: any) {
+      console.error('[CAM] preRequestPermissions hatası:', err?.name, err?.message);
+      return false;
+    }
+  };
+
+  const startRecording = useCallback(async (existingStream?: MediaStream) => {
+    console.log('[CAM] startRecording çağrıldı, isRecording=', isRecording);
+    if (isRecording) return streamRef.current;
+    try {
+      // Öncelik: dışarıdan verilen stream → önceden açık olan stream → yeni getUserMedia
+      const stream = existingStream
+        ?? streamRef.current
+        ?? await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      console.log('[CAM] stream alındı, track sayısı=', stream.getTracks().length);
       streamRef.current = stream;
 
       const mediaRecorder = new MediaRecorder(stream);
@@ -18,21 +43,20 @@ export const useEvidenceRecorder = () => {
       chunksRef.current = [];
 
       mediaRecorder.ondataavailable = (e) => {
-        if (e.data.size > 0) {
-          chunksRef.current.push(e.data);
-        }
+        if (e.data.size > 0) chunksRef.current.push(e.data);
       };
-
       mediaRecorder.onstop = () => {
         const blob = new Blob(chunksRef.current, { type: 'video/webm' });
-        const url = URL.createObjectURL(blob);
-        setVideoUrl(url);
+        setVideoUrl(URL.createObjectURL(blob));
       };
 
       mediaRecorder.start();
       setIsRecording(true);
-    } catch (err) {
-      console.error("Kamera/Mikrofon erişim hatası:", err);
+      console.log('[CAM] kayıt başladı');
+      return stream; // stream'i döndür
+    } catch (err: any) {
+      console.error('[CAM] Kamera/Mikrofon erişim hatası:', err?.name, err?.message, err);
+      return null;
     }
   }, [isRecording]);
 
@@ -42,9 +66,10 @@ export const useEvidenceRecorder = () => {
     }
     if (streamRef.current) {
       streamRef.current.getTracks().forEach(track => track.stop());
+      streamRef.current = null;
     }
     setIsRecording(false);
   }, [isRecording]);
 
-  return { isRecording, videoUrl, startRecording, stopRecording };
+  return { isRecording, videoUrl, getStream, preRequestPermissions, startRecording, stopRecording };
 };
