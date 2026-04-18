@@ -1,20 +1,43 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Guardly
 
-# Run and deploy your AI Studio app
+Kişisel güvenlik yardımcısı. Yolculuk süresince sizi izler, acil durumda güvendiğiniz kişileri anında bilgilendirir.
 
-This contains everything you need to run your app locally.
+## Özellikler
 
-View your app in AI Studio: https://ai.studio/apps/093f6bcb-55e6-4163-b150-a49af5d941b9
+- Zamanlayıcılı güvenli yolculuk takibi
+- Düşme algılama sensörü
+- Sesli komut ("İmdat") ile alarm
+- Acil durum kişilerine anlık konum + FCM bildirimi
+- Sahte arama özelliği
+- Tehdit PIN ile gizli alarm
+- Periyodik "İyi misin?" kontrolleri
+- Ses kanıtı kaydı ve Firebase'e yükleme
 
-## Run Locally
+## Teknoloji
 
-**Prerequisites:**  Node.js
+- React + TypeScript + Vite
+- Capacitor (Android)
+- Firebase (Auth, Firestore, Storage, FCM)
+- Vercel (bildirim API)
 
+## Kurulum
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+```bash
+npm install
+npm run build
+npx cap sync android
+```
+
+Android build:
+```bash
+cd android
+./gradlew bundleRelease
+```
+
+## Gizlilik Politikası
+
+https://kadirmanes.github.io/golge_arkadas/privacy-policy.html
+
+## Lisans
+
+MIT
